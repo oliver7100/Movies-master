@@ -9,18 +9,7 @@ const SEARCH_API = "curl --location --request GET 'https://feed.entertainment.tv
 
 function App() {
   const [movies, setMovies] = useState([]); 
-  const [moviesGenre, setMoviesGenre] = useState({
-  Horror: [],
-  Action:[],
-  Comedy:[],
-  Thriller:[],
-  War:[],
-  Romance:[],
-  Drama:[],
-  Crime:[],
-  Documentary:[],
-  Horror:[] 
-  });
+  const [moviesGenre, setMoviesGenre] = useState({});
 
 
   useEffect(() => {
@@ -32,13 +21,28 @@ function App() {
     });
   },[]);
 
+  let genres = {}
+  
   function sortGenres(movie){
-    movie["plprogram$tags"].map(tag=>{ 
-      console.log(tag["plprogram$title"]);
+    movie["plprogram$tags"].map(tag=>{
+
+      if(!genres.hasOwnProperty(tag['plprogram$title']) )
+      {
+        genres[tag['plprogram$title']] = []
+
+      }
+      genres[tag['plprogram$title']].push(movie);
+
     })
   }
-  movies.map(sortGenres);
-  
+  if(Object.keys(moviesGenre).length == 0)
+  {
+    movies.map(sortGenres);
+    setMoviesGenre(genres);
+
+  }
+  console.log(moviesGenre);
+
   return movies.map((movie, index) => 
     <Movie key={index} {...movie}/>
   );
