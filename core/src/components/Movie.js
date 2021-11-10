@@ -25,11 +25,16 @@ const Movie = ({plprogram$titleLocalized, plprogram$thumbnails, description, tit
     }
 
     return <div className="movie">
-        <img src={thumbnail} alt={movieTitle}/>
+      <img src={thumbnail} alt={movieTitle}/>
         <div className="movie-info">
             <h3>{movieTitle}</h3>
           <p>{movieRatings}</p>
         </div>
+
+      <div className="movie-over">
+        <h2>Overview</h2>
+        <p>{description}</p>
+      </div>
     </div>
 };
 

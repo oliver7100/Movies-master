@@ -5,12 +5,11 @@ import Movie from './components/Movie';
 
 const FEATURED_API = "https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType=series"
 
-const SEARCH_API = "curl --location --request GET 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas/106608168011?form=json'"
+const SEARCH_API = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas/106608168011?form=json'
 
 function App() {
   const [movies, setMovies] = useState([]); 
-  const [moviesGenre, setMoviesGenre] = useState({});
-
+  const [moviesGenre, setMoviesGenre] = useState(null);
 
   useEffect(() => {
     fetch(FEATURED_API)
@@ -21,9 +20,15 @@ function App() {
     });
   },[]);
 
+  
+  
+  
+
+
   let genres = {}
   
   function sortGenres(movie){
+    console.log(movie)
     movie["plprogram$tags"].map(tag=>{
 
       if(!genres.hasOwnProperty(tag['plprogram$title']) )
@@ -35,18 +40,29 @@ function App() {
 
     })
   }
-  if(Object.keys(moviesGenre).length == 0)
+  if(moviesGenre === null)
   {
     movies.map(sortGenres);
     setMoviesGenre(genres);
-
+    console.log(genres)
   }
   console.log(moviesGenre);
 
-  return movies.map((movie, index) => 
-    <Movie key={index} {...movie}/>
+ 
+
+  }
+
+  return(
+    <>
+    <header>
+    </header>
+    <div className="movie-container">
+      {movies.map((movie, index) => 
+          <Movie key={index} {...movie}/> )}
+    </div>
+    </>
   );
-};
+;
 
 
 export default App;
